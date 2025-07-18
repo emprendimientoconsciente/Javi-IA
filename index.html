@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat IA Pro - v2.0</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Página de Login -->
+    <div id="loginPage" class="page active">
+        <div class="login-container">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>Chat IA Pro</h1>
+                <span class="version">v2.0</span>
+            </div>
+            <form id="loginForm">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input 
+                        type="email" 
+                        id="emailInput" 
+                        placeholder="Ingresa tu email" 
+                        required
+                    >
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input 
+                        type="text" 
+                        id="nameInput" 
+                        placeholder="Tu nombre (opcional)" 
+                    >
+                </div>
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Entrar al Chat
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Página de Chat -->
+    <div id="chatPage" class="page">
+        <div class="chat-layout">
+            <!-- Sidebar -->
+            <div class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <div class="user-info">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-details">
+                            <span id="userName">Usuario</span>
+                            <span id="userEmail" class="email">email@example.com</span>
+                        </div>
+                    </div>
+                    <button id="newChatBtn" class="btn-new-chat">
+                        <i class="fas fa-plus"></i>
+                        Nueva Conversación
+                    </button>
+                </div>
+
+                <div class="conversations-list" id="conversationsList">
+                    <!-- Las conversaciones aparecerán aquí -->
+                </div>
+
+                <div class="sidebar-footer">
+                    <button id="themeToggle" class="btn-icon" title="Cambiar tema">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button id="exportBtn" class="btn-icon" title="Exportar conversaciones">
+                        <i class="fas fa-download"></i>
+                    </button>
+                    <button id="settingsBtn" class="btn-icon" title="Configuración">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button id="logoutBtn" class="btn-icon logout" title="Cerrar sesión">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Principal -->
+            <div class="chat-main">
+                <div class="chat-header">
+                    <button id="sidebarToggle" class="btn-icon mobile-only">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="chat-title">
+                        <h2 id="currentChatTitle">Nueva Conversación</h2>
+                        <span id="messageCount">0 mensajes</span>
+                    </div>
+                    <div class="chat-actions">
+                        <button id="clearChatBtn" class="btn-icon" title="Limpiar chat">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button id="saveChatBtn" class="btn-icon" title="Guardar chat">
+                            <i class="fas fa-save"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="messagesContainer" class="messages-container">
+                    <div class="welcome-message">
+                        <div class="welcome-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>¡Bienvenido a Chat IA Pro!</h3>
+                        <p>Soy tu asistente de IA. Puedo ayudarte con:</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Responder preguntas</li>
+                            <li><i class="fas fa-check"></i> Ayudar con tareas</li>
+                            <li><i class="fas fa-check"></i> Generar contenido</li>
+                            <li><i class="fas fa-check"></i> Resolver problemas</li>
+                        </ul>
+                        <p>¡Escribe tu primer mensaje para comenzar!</p>
+                    </div>
+                </div>
+                
+                <form id="messageForm" class="message-form">
+                    <div class="input-container">
+                        <textarea 
+                            id="messageInput" 
+                            placeholder="Escribe tu mensaje..." 
+                            rows="1"
+                            maxlength="2000"
+                        ></textarea>
+                        <div class="input-actions">
+                            <span id="charCount">0/2000</span>
+                            <button type="submit" id="sendBtn" class="btn-send" disabled>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Configuración -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Configuración</h3>
+                <button class="modal-close" id="closeSettings">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-group">
+                    <label>Modelo de IA:</label>
+                    <select id="aiModel">
+                        <option value="gpt-3.5">GPT-3.5 Turbo</option>
+                        <option value="gpt-4">GPT-4</option>
+                        <option value="claude">Claude</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label>Temperatura (Creatividad):</label>
+                    <input type="range" id="temperature" min="0" max="1" step="0.1" value="0.7">
+                    <span id="tempValue">0.7</span>
+                </div>
+                <div class="setting-group">
+                    <label>Máximo de tokens:</label>
+                    <input type="number" id="maxTokens" min="100" max="4000" value="1000">
+                </div>
+                <div class="setting-group">
+                    <label>
+                        <input type="checkbox" id="autoSave" checked>
+                        Guardar conversaciones automáticamente
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="saveSettings" class="btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
